@@ -7,7 +7,6 @@ window.Physijs = (function() {
 		Physijs = {}, // object assigned to window.Physijs
 		Eventable, // class to provide simple event methods
 		getObjectId, // returns a unique ID for a Physijs mesh object
-		getEulerXYZFromQuaternion, getQuatertionFromEuler,
 		convertWorldPositionToObject, // Converts a world-space position to object-space
 		addObjectChildren,
 
@@ -74,34 +73,6 @@ window.Physijs = (function() {
 			return _id++;
 		};
 	})();
-
-	getEulerXYZFromQuaternion = function ( x, y, z, w ) {
-		return new THREE.Vector3(
-			Math.atan2( 2 * ( x * w - y * z ), ( w * w - x * x - y * y + z * z ) ),
-			Math.asin( 2 *  ( x * z + y * w ) ),
-			Math.atan2( 2 * ( z * w - x * y ), ( w * w + x * x - y * y - z * z ) )
-		);
-	};
-
-	getQuatertionFromEuler = function( x, y, z ) {
-		var c1, s1, c2, s2, c3, s3, c1c2, s1s2;
-		c1 = Math.cos( y  );
-		s1 = Math.sin( y  );
-		c2 = Math.cos( -z );
-		s2 = Math.sin( -z );
-		c3 = Math.cos( x  );
-		s3 = Math.sin( x  );
-
-		c1c2 = c1 * c2;
-		s1s2 = s1 * s2;
-
-		return {
-			w: c1c2 * c3  - s1s2 * s3,
-			x: c1c2 * s3  + s1s2 * c3,
-			y: s1 * c2 * c3 + c1 * s2 * s3,
-			z: c1 * s2 * c3 - s1 * c2 * s3
-		};
-	};
 
 	convertWorldPositionToObject = function( position, object ) {
 		_temp_matrix4_1.identity(); // reset temp matrix
