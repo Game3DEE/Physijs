@@ -28,7 +28,6 @@
 		renderer = new THREE.WebGLRenderer({ antialias: true });
 		renderer.setSize( window.innerWidth, window.innerHeight );
 		renderer.shadowMap.enabled = true;
-		renderer.shadowMapSoft = true;
 		document.getElementById( 'viewport' ).appendChild( renderer.domElement );
 		
 		render_stats = new Stats();
@@ -86,17 +85,15 @@
 		light.position.set( 20, 20, -15 );
 		light.target.position.copy( scene.position );
 		light.castShadow = true;
-		light.shadowCameraLeft = -150;
-		light.shadowCameraTop = -150;
-		light.shadowCameraRight = 150;
-		light.shadowCameraBottom = 150;
-		light.shadowCameraNear = 20;
-		light.shadowCameraFar = 400;
-		light.shadowBias = -.0001
-		light.shadowMapWidth = light.shadowMapHeight = 2048;
-		light.shadowDarkness = .7;
+		light.shadow.camera.left = -150;
+		light.shadow.camera.top = -150;
+		light.shadow.camera.right = 150;
+		light.shadow.camera.bottom = 150;
+		light.shadow.camera.near = 20;
+		light.shadow.camera.far = 400;
+		light.shadow.Bias = -.0001
+		light.shadow.mapSize.width = light.shadow.mapSize.height = 2048;
 		scene.add( light );
-
 
 		var input;
 
@@ -158,13 +155,13 @@
 		}
 
 
-		var json_loader = new THREE.JSONLoader();
+		var json_loader = new THREE.ObjectLoader();
 
-		json_loader.load( "models/mustang.js", function( car, car_materials ) {
-			json_loader.load( "models/mustang_wheel.js", function( wheel, wheel_materials ) {
+		json_loader.load( "models/mustang.js", function( car ) {
+			json_loader.load( "models/mustang_wheel.js", function( wheel ) {
 				var mesh = new Physijs.BoxMesh(
-					car,
-					new THREE.MeshFaceMaterial( car_materials )
+					car.geometry,
+					car.material,
 				);
 				mesh.position.y = 2;
 				mesh.castShadow = mesh.receiveShadow = true;
@@ -179,12 +176,10 @@
 				));
 				scene.add( vehicle );
 
-				var wheel_material = new THREE.MeshFaceMaterial( wheel_materials );
-
 				for ( var i = 0; i < 4; i++ ) {
 					vehicle.addWheel(
-						wheel,
-						wheel_material,
+						wheel.geometry,
+						wheel.material,
 						new THREE.Vector3(
 								i % 2 === 0 ? -1.6 : 1.6,
 								-1,
