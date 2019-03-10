@@ -403,7 +403,7 @@ if ( description.children ) {
 	_objects[ body.id ] = body;
 	_motion_states[ body.id ] = motionState;
 
-	var ptr = body.a != undefined ? body.a : body.ptr;
+	var ptr = body.J != undefined ? body.J : body.ptr;
 	_objects_ammo[ptr] = body.id;
 	_num_objects++;
 
@@ -500,7 +500,7 @@ public_functions.removeObject = function( details ) {
 	Ammo.destroy(_motion_states[details.id]);
     if (_compound_shapes[details.id]) Ammo.destroy(_compound_shapes[details.id]);
 	if (_noncached_shapes[details.id]) Ammo.destroy(_noncached_shapes[details.id]);
-	var ptr = _objects[details.id].a != undefined ? _objects[details.id].a : _objects[details.id].ptr;
+	var ptr = _objects[details.id].J != undefined ? _objects[details.id].J : _objects[details.id].ptr;
 	delete _objects_ammo[ptr];
 	delete _objects[details.id];
 	delete _motion_states[details.id];
@@ -1255,8 +1255,8 @@ reportCollisions = function() {
 			pt = manifold.getContactPoint( j );
 			//if ( pt.getDistance() < 0 ) {
 				offset = 2 + (collisionreport[1]++) * COLLISIONREPORT_ITEMSIZE;
-				collisionreport[ offset ] = _objects_ammo[ manifold.getBody0() ];
-				collisionreport[ offset + 1 ] = _objects_ammo[ manifold.getBody1() ];
+				collisionreport[ offset ] = _objects_ammo[ manifold.getBody0().J ];
+				collisionreport[ offset + 1 ] = _objects_ammo[ manifold.getBody1().J ];
 
 				_vector = pt.get_m_normalWorldOnB();
 				collisionreport[ offset + 2 ] = _vector.x();
