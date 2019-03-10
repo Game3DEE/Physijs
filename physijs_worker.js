@@ -204,10 +204,11 @@ createShape = function( description ) {
 
 		case 'heightfield':
 
-			var ptr = Ammo.allocate(4 * description.xpts * description.ypts, "float", Ammo.ALLOC_NORMAL);
+			var ptr = Ammo._malloc(4 * description.xpts * description.ypts);
 
+			var p = 0;
 			for (var f = 0; f < description.points.length; f++) {
-				Ammo.setValue(ptr + f,  description.points[f]  , 'float');
+				Ammo.HEAPF32[ptr + p >> 2] = description.points[f];
 			}
 
 			shape = new Ammo.btHeightfieldTerrainShape(
@@ -241,6 +242,8 @@ createShape = function( description ) {
 
 public_functions.init = function( params ) {
 	importScripts( params.ammo );
+
+	Ammo(); // XXX need to do Ammo().then(....)
 
 	_transform = new Ammo.btTransform;
 	_vec3_1 = new Ammo.btVector3(0,0,0);
