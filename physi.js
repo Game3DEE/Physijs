@@ -965,6 +965,16 @@ window.Physijs = (function() {
 		}
 	});
 
+	// Physijs.Mesh.setCollisionFlags
+	Physijs.Mesh.prototype.setCollisionFlags = function ( flags ) {
+		this._physijs.collision_flags = flags;
+	};
+
+	// Physijs.Mesh.getCollisionFlags
+	Physijs.Mesh.prototype.getCollisionFlags = function () {
+		return this._physijs.collision_flags;
+	};
+
 	// Physijs.Mesh.applyCentralImpulse
 	Physijs.Mesh.prototype.applyCentralImpulse = function ( force ) {
 		if ( this.world ) {
