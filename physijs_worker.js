@@ -234,7 +234,6 @@ createShape = function( description ) {
 		default:
 			// Not recognized
 			return;
-			break;
 	}
 
 	return shape;
@@ -329,8 +328,7 @@ public_functions.setGravity = function( description ) {
 
 public_functions.addObject = function( description ) {
 
-	var i,
-	localInertia, shape, motionState, rbInfo, body;
+	var i, shape, motionState, rbInfo, body;
 
 shape = createShape( description );
 if (!shape) return
