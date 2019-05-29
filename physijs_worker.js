@@ -426,11 +426,12 @@ public_functions.addVehicle = function( description ) {
 	_objects[ description.rigidBody ].setActivationState( 4 );
 	vehicle.setCoordinateSystem( 0, 1, 2 );
 
-	world.addVehicle( vehicle );
+	world.addAction( vehicle );
 	_vehicles[ description.id ] = vehicle;
 };
 public_functions.removeVehicle = function( description ) {
-	delete _vehicles[ description.id ];
+	let vehicle = _vehicles[ description.id ];
+	world.removeAction( vehicle );
 };
 
 public_functions.addWheel = function( description ) {
